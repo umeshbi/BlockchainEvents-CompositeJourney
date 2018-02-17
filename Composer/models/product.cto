@@ -9,10 +9,19 @@ asset Article identified by articleId {
    o String articleName
    --> Owner owner
 }
+
+event TradeEvent {
+ o String type  
+ o String articleId
+ o String articleName
+ o String owner
+}
+
 participant Owner identified by ownerName {
  o String ownerRole
  o String ownerName
 }
+
 transaction Trade {
    --> Article article
    --> Owner newOwner
