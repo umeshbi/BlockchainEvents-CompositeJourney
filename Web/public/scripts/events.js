@@ -1,9 +1,11 @@
 class Events {
   constructor() {
-    if(location.pathname.endsWith("seller.html")) {
-      this.table = new AuctioneerTable("seller");
-    } else if(location.pathname.endsWith("buyer.html")) {
-      this.table = new AuctioneerTable("buyer");
+    if(location.pathname.endsWith("manufacturer.html")) {
+      this.table = new AuctioneerTable("manufacturer");
+    } else if(location.pathname.endsWith("retailer.html")) {
+      this.table = new AuctioneerTable("retailer");
+    } else if (location.pathname.endsWith("consumer.html")) {
+      this.table = new AuctioneerTable("consumer");
     }
     // Listen for events
     this.socket = new WebSocket(Events.URL_TRADE);
