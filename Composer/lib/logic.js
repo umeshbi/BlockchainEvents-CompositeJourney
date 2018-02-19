@@ -28,5 +28,4 @@ function tradeArticle(trade) {
       // Emit
       emit(event);
     });
- 
 }
