@@ -22,11 +22,11 @@ function tradeArticle(trade) {
       event.type = "Start Trade";
       event.articleId = trade.article.articleId;
       event.articleName = trade.article.articleName;
-      event.price = trade.newOwner.ledgerBalance;
       event.owner = trade.newOwner.ownerName;
-      
+      event.price = trade.newOwner.ledgerBalance;
 
       // Emit
       emit(event);
     });
+ 
 }
