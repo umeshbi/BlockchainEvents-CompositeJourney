@@ -8,6 +8,7 @@ asset Article identified by articleId {
    o String articleId
    o String articleName
    --> Owner owner
+    o Double unitPrice
 }
 
 event TradeEvent {
@@ -15,11 +16,13 @@ event TradeEvent {
  o String articleId
  o String articleName
  o String owner
+ o Double price
 }
 
 participant Owner identified by ownerName {
  o String ownerRole
  o String ownerName
+ o Double ledgerBalance
 }
 
 transaction Trade {
