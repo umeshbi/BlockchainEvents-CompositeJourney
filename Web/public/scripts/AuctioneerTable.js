@@ -16,11 +16,11 @@ class AuctioneerTable {
       var eventData = parsed.eventsEmitted[0];
       var rowData = "";
       if(this.user === "manufacturer") {
-        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       } if (this.user === "retailer") {
-        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] +"</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       } else {
-        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr ><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] +"</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       }
       $('#' + this.id).append(rowData);
     }
@@ -29,12 +29,12 @@ class AuctioneerTable {
     if(eventData.$class === this.eventClass) {
       var rowData = "";
       if (this.user === "manufacturer") {
-        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       } 
       if (this.user === "retailer") {
-        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       }else {
-        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
+        rowData = "<tr class='anim highlight'><td width='10%'>" + eventData["articleId"] + "</td><td width='10%'>" + eventData["articleName"] + "</td><td width='10%'>" + eventData["price"] + "</td><td width='10%'>" + eventData["owner"] + "</td></tr>";
       }
       $(rowData).hide().prependTo('#' + this.id + ' tbody').fadeIn("slow").addClass('normal');
     }
