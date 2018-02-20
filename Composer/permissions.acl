@@ -3,7 +3,7 @@
  */
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
-    participant: "org.ikea.com.User"
+    participant: "org.ikea.com.*"
     operation: READ
     resource: "org.ikea.com.*"
     action: ALLOW
@@ -11,17 +11,25 @@ rule EverybodyCanReadEverything {
 
 rule EverybodyCanSubmitTransactions {
     description: "Allow all participants to submit transactions"
-    participant: "org.ikea.com.User"
+    participant: "org.ikea.com.*"
     operation: CREATE
-    resource: "org.ikea.com.User"
+    resource: "org.ikea.com.*"
+    action: ALLOW
+}
+
+rule EverybodyCanUpdateTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "org.ikea.com.*"
+    operation: UPDATE
+    resource: "org.ikea.com.*"
     action: ALLOW
 }
 
 rule OwnerHasFullAccessToTheirAssets {
     description: "Allow all participants full access to their assets"
-    participant(p): "org.ikea.com.User"
+    participant(p): "org.ikea.com.*"
     operation: ALL
-    resource(r): "org.ikea.com.User"
+    resource(r): "org.ikea.com.*"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
