@@ -13,7 +13,6 @@ enum ProductType {
   o TABLE
   }
 
-<<<<<<< HEAD
 enum DefectType{
  o WOOD_DEFECT
  o FITTING_DEFECT
@@ -120,27 +119,6 @@ transaction ManufacturerRecallT{
   --> Retailer retailer
   o DefectType DefectType
 
-=======
-asset Article identified by articleId {
-   o String articleId
-   o String articleName
-   --> Owner owner
-    o Double unitPrice
-}
-
-event TradeEvent {
- o String type  
- o String articleId
- o String articleName
- o String owner
- o Double price
-}
-
-participant Owner identified by ownerName {
- o String ownerRole
- o String ownerName
- o Double ledgerBalance
->>>>>>> 640cfc3d1896ab5f2bac4da9956e9aaa49d4f886
 }
 
 transaction AddProduct{
