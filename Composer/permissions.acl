@@ -1,18 +1,51 @@
 /**
- * New access control file
+ * Sample access control list.
  */
- rule NetworkAdminUser {
-   description: "Grant business network administrators full access to user resources"
-   participant: "org.hyperledger.composer.system.NetworkAdmin"
-   operation: ALL
-   resource: "**"
-   action: ALLOW
+rule EverybodyCanReadEverything {
+    description: "Allow all participants read access to all resources"
+    participant: "org.ikea.com.User"
+    operation: READ
+    resource: "org.ikea.com.*"
+    action: ALLOW
+}
+
+rule EverybodyCanSubmitTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "org.ikea.com.User"
+    operation: CREATE
+    resource: "org.ikea.com.User"
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToTheirAssets {
+    description: "Allow all participants full access to their assets"
+    participant(p): "org.ikea.com.User"
+    operation: ALL
+    resource(r): "org.ikea.com.User"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant User network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
 }
 
 rule NetworkAdminSystem {
-   description: "Grant business network administrators full access to system resources"
-   participant: "org.hyperledger.composer.system.NetworkAdmin"
-   operation: ALL
-   resource: "org.hyperledger.composer.system.**"
-   action: ALLOW
+    description: "Grant User network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
 }

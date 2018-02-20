@@ -1,28 +1,129 @@
 /**
-/**
- * Defines a data model for a product auction
+ * Write your model definitions here
  */
-namespace org.acme.product.auction
 
-asset Article identified by articleId {
-   o String articleId
-   o String articleName
-   --> Owner owner
+namespace org.ikea.com
+
+/**
+ * The type of shipment product being shipped
+ */
+enum ProductType {
+  o WOOD
+  o FITTINGS
+  o TABLE
+  }
+
+enum DefectType{
+ o WOOD_DEFECT
+ o FITTING_DEFECT
 }
 
-event TradeEvent {
- o String type  
- o String articleId
- o String articleName
- o String owner
+
+
+asset Product identified by productId {
+  o String productId
+  o String description
+  o ProductType ProductType
+  o Double price
+  --> User owner
 }
 
-participant Owner identified by ownerName {
- o String ownerRole
- o String ownerName
+
+
+
+
+
+
+
+
+/**
+ * An abstract participant type in this business network
+ */
+abstract participant User identified by email {
+  o String email  
+  o Double accountBalance
+  o Product product optional
 }
 
-transaction Trade {
-   --> Article article
-   --> Owner newOwner
+/**
+ * A WoodVendor is a type of participant in the network
+ */
+participant WoodVendor extends User {
+}
+
+/**
+ * A FittingVendor is a type of participant in the network
+ */
+participant FittingsVendor extends User {
+}
+
+/**
+ * A Manufacturer is a type of participant in the network
+ */
+participant Manufacturer extends User {
+  o Product[] rawProducts optional
+}
+
+/**
+ * An Retailer is a type of participant in the network
+ */
+participant Retailer extends User {
+}
+/**
+ * An Buyer is a type of participant in the network
+ */
+participant Buyer extends User {
+}
+/**
+ * An abstract transaction that is related to a Shipment
+ */
+ transaction ManufacturerPurchaseT {
+  --> WoodVendor woodVendor
+  --> FittingsVendor fittingVendor
+  --> Manufacturer manufacturer 
+  o Double manufacturerChanges
+}
+
+/**
+ * An abstract transaction that is related to a Shipment
+ */
+ transaction RetailerPurchaseT {
+    o Double retailerCharges
+  --> Manufacturer manufacturer 
+  --> Retailer retailer
+}
+
+/**
+ * An abstract transaction that is related to a Shipment
+ */
+ transaction BuyerPurchaseT {
+     --> Retailer retailer
+     --> Buyer buyer
+}
+
+transaction BuyerReturnT{
+
+  --> Buyer buyer
+  --> WoodVendor woodVendor
+  --> FittingsVendor fittingVendor
+  --> Manufacturer manufacturer 
+  --> Retailer retailer
+  o DefectType DefectType
+
+}
+
+transaction ManufacturerRecallT{
+
+  --> Buyer buyer
+  --> Manufacturer manufacturer 
+  --> Retailer retailer
+  o DefectType DefectType
+
+}
+
+transaction AddProduct{
+  o String description
+  o ProductType ProductType
+  o Double price
+  --> User owner
 }
