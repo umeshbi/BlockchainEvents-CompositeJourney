@@ -112,27 +112,60 @@ return getParticipantRegistry(NS + '.Retailer')
 
 /**
  * Sample transaction processor function.
- * @param {org.ikea.com.BuyerReturnT} tx The sample transaction instance.
+ * @param {org.ikea.com.ProductReturn} tx The sample transaction instance.
  * @transaction
  */
 
-function buyerReturnT(buyerReturnT) {
+function productReturn(productReturn) {
 
-  var buyer = buyerReturnT.buyer;
-  var retailer = buyerReturnT.retailer;
+  var buyer = productReturn.buyer;
+  var retailer = productReturn.retailer;
   retailer.accountBalance -= buyer.product.price;
   buyer.accountBalance += buyer.product.price;
   retailer.product = buyer.product;
   buyer.product = null;
 return getParticipantRegistry(NS + '.Retailer')
 .then(function(retailerRegistry) {
-  return retailerRegistry.update(buyerReturnT.retailer);
+  return retailerRegistry.update(productReturn.retailer);
 }).then(function() {
   return getParticipantRegistry(NS + '.Buyer');
 }).then(function(buyerRegistry) {
-  return buyerRegistry.update(buyerReturnT.buyer);
+  return buyerRegistry.update(productReturn.buyer);
 });
 }
+
+
+/**
+ * Sample transaction processor function.
+ * @param {org.ikea.com.ProductRecall} tx The sample transaction instance.
+ * @transaction
+ */
+
+function productRecall(productRecall) {
+
+  var buyer = productRecall.buyer;
+  var retailer = productRecall.retailer;
+  var manufacturer = productRecall.manufacturer;
+
+  retailer.accountBalance -= buyer.product.price;
+  buyer.accountBalance += buyer.product.price;
+  manufacturer.accountBalance -= buyer.product.price;
+  manufacturer.product = buyer.product;
+  buyer.product = null;
+return getParticipantRegistry(NS + '.Retailer')
+.then(function(retailerRegistry) {
+  return retailerRegistry.update(productRecall.retailer);
+}).then(function() {
+  return getParticipantRegistry(NS + '.Buyer');
+}).then(function(buyerRegistry) {
+  return buyerRegistry.update(productRecall.buyer);
+}).then(function() {
+  return getParticipantRegistry(NS + '.Manufacturer');
+}).then(function(manufacturerRegistry) {
+  return manufacturerRegistry.update(productRecall.manufacturer);
+});
+}
+
 
 /**
  * Add new Product

@@ -101,18 +101,15 @@ participant Buyer extends User {
      --> Buyer buyer
 }
 
-transaction BuyerReturnT{
+transaction ProductReturn{
 
   --> Buyer buyer
-  --> WoodVendor woodVendor
-  --> FittingsVendor fittingVendor
-  --> Manufacturer manufacturer 
   --> Retailer retailer
   o DefectType DefectType
 
 }
 
-transaction ManufacturerRecallT{
+transaction ProductRecall{
 
   --> Buyer buyer
   --> Manufacturer manufacturer 
@@ -120,6 +117,7 @@ transaction ManufacturerRecallT{
   o DefectType DefectType
 
 }
+
 
 transaction AddProduct{
   o String description
