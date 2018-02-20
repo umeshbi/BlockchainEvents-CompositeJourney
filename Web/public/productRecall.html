@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>IKEA Blockchain Trade</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css"></link>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">IKEA Trade History</a>
+        </div>
+      </div>
+    </nav>
+    <center>
+      <h3>Product Recall</h3>
+    </center>
+    <body id="body"><button type="submit" onclick="javascript:send()">Product Recall</button>
+  </body>
+</html>
+<script type="text/javascript" language="javascript">
+  function send()
+    {
+      var urlvariable;
+      urlvariable = "text";
+      var ItemJSON;
+      ItemJSON = '[{    "$class": "org.acme.product.auction.Trade", "article": "800", "newOwner": "Pragati", "transactionId": "12345", "timestamp": "2018-02-20T09:33:03.079Z" }]';
+      URL = "http://localhost:3000/api/Trade";
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+      xmlhttp.open("POST", URL, false);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      //xmlhttp.setRequestHeader('Authorization', 'Basic' + window.btoa(‘apiusername:apiuserpassword’)); //in prod, you should encrypt user name and password and provide encrypted keys here instead
+      xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+      xmlhttp.send(ItemJSON);
+      alert(xmlhttp.responseText);
+      document.getElementById("div").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
+    }
+
+function callbackFunction(xmlhttp) 
+{
+   alert(xmlhttp.responseXML);
+}
+
+</script>
+<script src="./scripts/AuctioneerTable.js"></script>
+<script src="./scripts/events.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
