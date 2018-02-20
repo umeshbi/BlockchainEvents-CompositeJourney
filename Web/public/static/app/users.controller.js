@@ -14,12 +14,15 @@
         vm.buyers = [];
         vm.retailers = [];
         vm.manufacturers  = [];
+        vm.products = [];
         init(); 
 
         function init(){
             getAllBuyers();
             getAllManufacturer();
             getAllRetailers();
+            getAllProducts();
+
         }
 
         function getAllBuyers(){
@@ -37,6 +40,14 @@
             getManufacturer.then(function(response){
                
                 vm.manufacturers = response.data;
+            });
+        }
+        function getAllProducts() {
+            var url = "http://localhost:3000/api/Product";
+            var getProduct = $http.get(url);
+            getProduct.then(function (response) {
+
+                vm.products = response.data;
             });
         }
         function getAllRetailers(){

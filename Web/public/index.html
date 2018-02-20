@@ -101,12 +101,21 @@
 
                     <tr>
 
-                        <td>Ledger Balance</td>
-                        <td>$2.38</td>
                         <td>
-                            <div id="d"></div>
+                            <div ng-repeat="product in vm.products">
+                                {{product.ProductType}}
+                            </div>
                         </td>
-                        <td>-1.36%</td>
+                        <td>
+                            <div ng-repeat="product in vm.products">
+                                {{product.price}}
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-repeat="product in vm.products">
+                                {{product.owner}}
+                            </div>
+                           </td>
                     </tr>
 
                 </tbody>
