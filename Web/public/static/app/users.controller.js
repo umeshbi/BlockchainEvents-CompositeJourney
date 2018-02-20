@@ -15,6 +15,7 @@
         vm.retailers = [];
         vm.manufacturers  = [];
         vm.products = [];
+        vm.transactions = [];
         init(); 
 
         function init(){
@@ -22,6 +23,7 @@
             getAllManufacturer();
             getAllRetailers();
             getAllProducts();
+            getAllTransactions();
 
         }
 
@@ -48,6 +50,13 @@
             getProduct.then(function (response) {
 
                 vm.products = response.data;
+            });
+        }
+        function getAllTransactions() {
+            var url = "http://localhost:3000/api/system/historian";
+            var getTransaction = $http.get(url);
+            getTransaction.then(function (response) {
+                vm.transactions = response.data;
             });
         }
         function getAllRetailers(){

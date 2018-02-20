@@ -122,6 +122,48 @@
             </table>
         </div>
 
+        
+
+    </section>
+
+    <section style="margin-top:-205px;margin-left:700px;">
+        <!--for demo wrap-->
+        <h3>Shared Ledger Logs</h3>
+        <div class="tbl-header" style="width:600px;">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th>Transaction Type</th>
+                        <th>Transaction Timestamp</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tbl-content" style="width:750px;height:300px;">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+
+                    <tr>
+
+                       
+                        <td>
+                            <div ng-repeat="transaction in vm.transactions">
+                                {{transaction.transactionType}}
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-repeat="transaction in vm.transactions">
+                                {{transaction.transactionTimestamp}}
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+
     </section>
 
 </html>
