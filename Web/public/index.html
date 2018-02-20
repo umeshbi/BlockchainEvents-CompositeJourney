@@ -38,17 +38,17 @@
                         <td>Article Owner </td>
                         <td>
                             <div ng-repeat="manufacturer in vm.manufacturers">
-                                {{manufacturer.product.description}}
+                                {{manufacturer.product.ProductType}}
                             </div>
                         </td>
                         <td>
                             <div ng-repeat="retailer in vm.retailers">
-                                {{retailer.product.description}}
+                                {{retailer.product.ProductType}}
                             </div>
                         </td>
                         <td>
                             <div ng-repeat="buyer in vm.buyers">
-                                {{buyer.product.description}}
+                                {{buyer.product.ProductType}}
                             </div>
                         </td>
                     </tr>
@@ -87,10 +87,10 @@
                 <thead>
                     <tr>
 
-                        <th></th>
+                        
                         <th>Product Type</th>
                         <th>Price</th>
-                        <th>Owner</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
             </table>
@@ -113,7 +113,7 @@
                         </td>
                         <td>
                             <div ng-repeat="product in vm.products">
-                                {{product.owner}}
+                                {{product.description}}
                             </div>
                            </td>
                     </tr>
