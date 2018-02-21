@@ -77,7 +77,7 @@ participant Buyer extends User {
 /**
  * An abstract transaction that is related to a Shipment
  */
- transaction ManufacturerPurchaseT {
+ transaction ManufacturerPurchase {
   --> WoodVendor woodVendor
   --> FittingsVendor fittingVendor
   --> Manufacturer manufacturer 
@@ -87,7 +87,7 @@ participant Buyer extends User {
 /**
  * An abstract transaction that is related to a Shipment
  */
- transaction RetailerPurchaseT {
+ transaction RetailerPurchase {
     o Double retailerCharges
   --> Manufacturer manufacturer 
   --> Retailer retailer
@@ -96,7 +96,7 @@ participant Buyer extends User {
 /**
  * An abstract transaction that is related to a Shipment
  */
- transaction BuyerPurchaseT {
+ transaction BuyerPurchase {
      --> Retailer retailer
      --> Buyer buyer
 }

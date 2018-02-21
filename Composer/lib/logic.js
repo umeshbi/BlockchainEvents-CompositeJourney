@@ -16,98 +16,98 @@
 var NS = 'org.ikea.com';
 /**
  * Sample transaction processor function.
- * @param {org.ikea.com.ManufacturerPurchaseT} tx The sample transaction instance.
+ * @param {org.ikea.com.ManufacturerPurchase} tx The sample transaction instance.
  * @transaction
  */
 
-function manufacturerPurchaseT(manufacturerPurchaseT) {
-    var woodVendor = manufacturerPurchaseT.woodVendor;
-    var fittingsVendor = manufacturerPurchaseT.fittingVendor;
-    var manufacturer = manufacturerPurchaseT.manufacturer;
-    woodVendor.accountBalance += woodVendor.product.price;
-    fittingsVendor.accountBalance += fittingsVendor.product.price;
-    manufacturer.accountBalance -= woodVendor.product.price;
-    manufacturer.accountBalance -= fittingsVendor.product.price;
-    if(!manufacturer.rawProducts) {
-        manufacturer.rawProducts = [];
-      }
-    manufacturer.rawProducts.push(woodVendor.product)
-    manufacturer.rawProducts.push(fittingsVendor.product)
-    
+function manufacturerPurchase(manufacturerPurchase) {
+  var woodVendor = manufacturerPurchase.woodVendor;
+  var fittingsVendor = manufacturerPurchase.fittingVendor;
+  var manufacturer = manufacturerPurchase.manufacturer;
+  woodVendor.accountBalance += woodVendor.product.price;
+  fittingsVendor.accountBalance += fittingsVendor.product.price;
+  manufacturer.accountBalance -= woodVendor.product.price;
+  manufacturer.accountBalance -= fittingsVendor.product.price;
+  if (!manufacturer.rawProducts) {
+    manufacturer.rawProducts = [];
+  }
+  manufacturer.rawProducts.push(woodVendor.product)
+  manufacturer.rawProducts.push(fittingsVendor.product)
+
   var factory = getFactory();
 
   tableProduct = factory.newResource(NS, 'Product', Math.random().toString(36).substring(3));
   tableProduct.ProductType = "TABLE"
   tableProduct.description = "Brand new Table"
-  tableProduct.owner = manufacturerPurchaseT.manufacturer
-  tableProduct.price = woodVendor.product.price + fittingsVendor.product.price + manufacturerPurchaseT.manufacturerChanges
-  manufacturer.product =tableProduct;
-  woodVendor.product=null;
-    fittingsVendor.product=null;
-  return getAssetRegistry(NS + '.Product').then(function(registry) {
+  tableProduct.owner = manufacturerPurchase.manufacturer
+  tableProduct.price = woodVendor.product.price + fittingsVendor.product.price + manufacturerPurchase.manufacturerChanges
+  manufacturer.product = tableProduct;
+  woodVendor.product = null;
+  fittingsVendor.product = null;
+  return getAssetRegistry(NS + '.Product').then(function (registry) {
     return registry.add(tableProduct);
-  }).then(function() {
+  }).then(function () {
     return getParticipantRegistry(NS + '.WoodVendor');
-  }).then(function(woodVendorRegistry) {
-    return woodVendorRegistry.update(manufacturerPurchaseT.woodVendor);
-  }).then(function() {
+  }).then(function (woodVendorRegistry) {
+    return woodVendorRegistry.update(manufacturerPurchase.woodVendor);
+  }).then(function () {
     return getParticipantRegistry(NS + '.FittingsVendor');
-  }).then(function(fittingsVendorRegistry) {
-    return fittingsVendorRegistry.update(manufacturerPurchaseT.fittingVendor);
-  }).then(function() {
+  }).then(function (fittingsVendorRegistry) {
+    return fittingsVendorRegistry.update(manufacturerPurchase.fittingVendor);
+  }).then(function () {
     return getParticipantRegistry(NS + '.Manufacturer');
-  }).then(function(manufacturerRegistry) {
-    return manufacturerRegistry.update(manufacturerPurchaseT.manufacturer);
+  }).then(function (manufacturerRegistry) {
+    return manufacturerRegistry.update(manufacturerPurchase.manufacturer);
   });
-  }
-  
-/**
- * Sample transaction processor function.
- * @param {org.ikea.com.RetailerPurchaseT} tx The sample transaction instance.
- * @transaction
- */
-
-function retailerPurchaseT(retailerPurchaseT) {
-
-  var manufacturer = retailerPurchaseT.manufacturer;
-  var retailer = retailerPurchaseT.retailer;
-  manufacturer.accountBalance += manufacturer.product.price;
-  retailer.accountBalance -= manufacturer.product.price;
-  retailer.product = manufacturer.product;
-  retailer.product.price += retailerPurchaseT.retailerCharges;
-  manufacturer.product = null;
-return getParticipantRegistry(NS + '.Retailer')
-.then(function(retailerRegistry) {
-  return retailerRegistry.update(retailerPurchaseT.retailer);
-}).then(function() {
-  return getParticipantRegistry(NS + '.Manufacturer');
-}).then(function(manufacturerRegistry) {
-  return manufacturerRegistry.update(retailerPurchaseT.manufacturer);
-});
 }
 
 /**
  * Sample transaction processor function.
- * @param {org.ikea.com.BuyerPurchaseT} tx The sample transaction instance.
+ * @param {org.ikea.com.RetailerPurchase} tx The sample transaction instance.
  * @transaction
  */
 
-function buyerPurchaseT(buyerPurchaseT) {
+function retailerPurchase(retailerPurchase) {
 
-  var buyer = buyerPurchaseT.buyer;
-  var retailer = buyerPurchaseT.retailer;
+  var manufacturer = retailerPurchase.manufacturer;
+  var retailer = retailerPurchase.retailer;
+  manufacturer.accountBalance += manufacturer.product.price;
+  retailer.accountBalance -= manufacturer.product.price;
+  retailer.product = manufacturer.product;
+  retailer.product.price += retailerPurchase.retailerCharges;
+  manufacturer.product = null;
+  return getParticipantRegistry(NS + '.Retailer')
+    .then(function (retailerRegistry) {
+      return retailerRegistry.update(retailerPurchase.retailer);
+    }).then(function () {
+      return getParticipantRegistry(NS + '.Manufacturer');
+    }).then(function (manufacturerRegistry) {
+      return manufacturerRegistry.update(retailerPurchase.manufacturer);
+    });
+}
+
+/**
+ * Sample transaction processor function.
+ * @param {org.ikea.com.BuyerPurchase} tx The sample transaction instance.
+ * @transaction
+ */
+
+function buyerPurchase(buyerPurchase) {
+
+  var buyer = buyerPurchase.buyer;
+  var retailer = buyerPurchase.retailer;
   retailer.accountBalance += retailer.product.price;
   buyer.accountBalance -= retailer.product.price;
   buyer.product = retailer.product;
   retailer.product = null;
-return getParticipantRegistry(NS + '.Retailer')
-.then(function(retailerRegistry) {
-  return retailerRegistry.update(buyerPurchaseT.retailer);
-}).then(function() {
-  return getParticipantRegistry(NS + '.Buyer');
-}).then(function(buyerRegistry) {
-  return buyerRegistry.update(buyerPurchaseT.buyer);
-});
+  return getParticipantRegistry(NS + '.Retailer')
+    .then(function (retailerRegistry) {
+      return retailerRegistry.update(buyerPurchase.retailer);
+    }).then(function () {
+      return getParticipantRegistry(NS + '.Buyer');
+    }).then(function (buyerRegistry) {
+      return buyerRegistry.update(buyerPurchase.buyer);
+    });
 }
 
 /**
@@ -124,14 +124,14 @@ function productReturn(productReturn) {
   buyer.accountBalance += buyer.product.price;
   retailer.product = buyer.product;
   buyer.product = null;
-return getParticipantRegistry(NS + '.Retailer')
-.then(function(retailerRegistry) {
-  return retailerRegistry.update(productReturn.retailer);
-}).then(function() {
-  return getParticipantRegistry(NS + '.Buyer');
-}).then(function(buyerRegistry) {
-  return buyerRegistry.update(productReturn.buyer);
-});
+  return getParticipantRegistry(NS + '.Retailer')
+    .then(function (retailerRegistry) {
+      return retailerRegistry.update(productReturn.retailer);
+    }).then(function () {
+      return getParticipantRegistry(NS + '.Buyer');
+    }).then(function (buyerRegistry) {
+      return buyerRegistry.update(productReturn.buyer);
+    });
 }
 
 
@@ -152,18 +152,18 @@ function productRecall(productRecall) {
   manufacturer.accountBalance -= buyer.product.price;
   manufacturer.product = buyer.product;
   buyer.product = null;
-return getParticipantRegistry(NS + '.Retailer')
-.then(function(retailerRegistry) {
-  return retailerRegistry.update(productRecall.retailer);
-}).then(function() {
-  return getParticipantRegistry(NS + '.Buyer');
-}).then(function(buyerRegistry) {
-  return buyerRegistry.update(productRecall.buyer);
-}).then(function() {
-  return getParticipantRegistry(NS + '.Manufacturer');
-}).then(function(manufacturerRegistry) {
-  return manufacturerRegistry.update(productRecall.manufacturer);
-});
+  return getParticipantRegistry(NS + '.Retailer')
+    .then(function (retailerRegistry) {
+      return retailerRegistry.update(productRecall.retailer);
+    }).then(function () {
+      return getParticipantRegistry(NS + '.Buyer');
+    }).then(function (buyerRegistry) {
+      return buyerRegistry.update(productRecall.buyer);
+    }).then(function () {
+      return getParticipantRegistry(NS + '.Manufacturer');
+    }).then(function (manufacturerRegistry) {
+      return manufacturerRegistry.update(productRecall.manufacturer);
+    });
 }
 
 
@@ -173,24 +173,24 @@ return getParticipantRegistry(NS + '.Retailer')
  * @transaction
  */
 function addProduct(newproduct) {
-    var product = getFactory().newResource(NS, 'Product', Math.random().toString(36).substring(3));
-    product.description = newproduct.description;
-    product.price = newproduct.price;
-    product.ProductType = newproduct.ProductType;
-    product.owner = newproduct.owner;
-    product.owner.product = product;
-    var user = null;
-  if(newproduct.ProductType == "WOOD"){
-    user=".WoodVendor";
+  var product = getFactory().newResource(NS, 'Product', Math.random().toString(36).substring(3));
+  product.description = newproduct.description;
+  product.price = newproduct.price;
+  product.ProductType = newproduct.ProductType;
+  product.owner = newproduct.owner;
+  product.owner.product = product;
+  var user = null;
+  if (newproduct.ProductType == "WOOD") {
+    user = ".WoodVendor";
 
-  }else{
-    user=".FittingsVendor";
+  } else {
+    user = ".FittingsVendor";
   }
-    return getAssetRegistry(NS + '.Product').then(function(registry) {
-      return registry.add(product);
-    }).then(function() {
-      return getParticipantRegistry(NS + user);
-    }).then(function(userRegistry) {
-      return userRegistry.update(newproduct.owner);
-    });
-  }
+  return getAssetRegistry(NS + '.Product').then(function (registry) {
+    return registry.add(product);
+  }).then(function () {
+    return getParticipantRegistry(NS + user);
+  }).then(function (userRegistry) {
+    return userRegistry.update(newproduct.owner);
+  });
+}
