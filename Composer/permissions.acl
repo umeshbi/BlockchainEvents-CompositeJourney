@@ -42,6 +42,24 @@ rule RetailerHasAllAccessToRetailerPurchase {
     action: ALLOW
 }
 
+rule RetailerHasAllAccessToManufacturerPurchase {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: ALL
+    resource: "org.ikea.com.ManufacturerPurchase"
+    action: ALLOW
+}
+
+rule RetailerHasAllAccessToBuyerPurchase {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: ALL
+    resource: "org.ikea.com.BuyerPurchase"
+    action: ALLOW
+}
+
+
+
 rule RetailerHasLimitedAccessToProduct {
     description: "Allow only Retailer to Buy Table from Manufacturer"
     participant: "org.ikea.com.Retailer"
