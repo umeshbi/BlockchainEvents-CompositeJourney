@@ -147,12 +147,12 @@
 
                        
                         <td>
-                            <div ng-repeat="transaction in vm.transactions| orderBy : 'transactionTimestamp'">
+                            <div ng-repeat="transaction in vm.transactions| orderBy : '-transactionTimestamp'">
                                 {{transaction.transactionType}}
                             </div>
                         </td>
                         <td>
-                            <div ng-repeat="transaction in vm.transactions| orderBy : 'transactionTimestamp'">
+                            <div ng-repeat="transaction in vm.transactions| orderBy : '-transactionTimestamp'">
                                 {{transaction.transactionTimestamp}}
                             </div>
                         </td>
