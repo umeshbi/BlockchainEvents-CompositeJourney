@@ -1,46 +1,106 @@
 /**
  * Sample access control list.
  */
-rule EverybodyCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "org.ikea.com.*"
-    operation: READ
-    resource: "org.ikea.com.*"
-    action: ALLOW
-}
-
-rule EverybodyCanSubmitTransactions {
-    description: "Allow all participants to submit transactions"
-    participant: "org.ikea.com.*"
-    operation: CREATE
-    resource: "org.ikea.com.*"
-    action: ALLOW
-}
-
-rule EverybodyCanUpdateTransactions {
-    description: "Allow all participants to submit transactions"
-    participant: "org.ikea.com.*"
-    operation: UPDATE
-    resource: "org.ikea.com.*"
-    action: ALLOW
-}
-
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "org.ikea.com.*"
+rule ManufacturerHasFullAccessToProduct {
+    description: "Allow only Manufacturer to access Product Details"
+    participant: "org.ikea.com.Manufacturer"
     operation: ALL
-    resource(r): "org.ikea.com.*"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    resource: "org.ikea.com.Product"
+    transaction: "org.ikea.com.ManufacturerPurchase"
     action: ALLOW
 }
 
-rule SystemACL {
-  description:  "System ACL to permit all access"
-  participant: "org.hyperledger.composer.system.Participant"
-  operation: ALL
-  resource: "org.hyperledger.composer.system.**"
-  action: ALLOW
+rule ManufacturerHasAccessToEverything {
+    description: "Allow only Manufacturer to access Product Details"
+    participant: "org.ikea.com.Manufacturer"
+    operation: ALL
+    resource: "org.ikea.com.*"
+    action: ALLOW
 }
+
+rule WoodHasAccessToEverything {
+    description: "Allow only Wood to access Everything"
+    participant: "org.ikea.com.WoodVendor"
+    operation: ALL
+    resource: "org.ikea.com.*"
+    action: ALLOW
+}
+
+rule FittingHasAccessToEverything {
+    description: "Allow only Manufacturer to Everything"
+    participant: "org.ikea.com.FittingsVendor"
+    operation: ALL
+    resource: "org.ikea.com.*"
+    action: ALLOW
+}
+
+rule RetailerHasAllAccessToRetailerPurchase {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: ALL
+    resource: "org.ikea.com.RetailerPurchase"
+    action: ALLOW
+}
+
+rule RetailerHasLimitedAccessToProduct {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: READ,UPDATE
+    resource: "org.ikea.com.Product"
+    action: ALLOW
+}
+
+
+rule RetailerHasLimitedAccessToManufacturer {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: READ,UPDATE
+    resource: "org.ikea.com.Manufacturer"
+    action: ALLOW
+}
+
+rule RetailerHasFullAccessToRetailer {
+    description: "Allow only Retailer to Buy Table from Manufacturer"
+    participant: "org.ikea.com.Retailer"
+    operation: ALL
+    resource: "org.ikea.com.Retailer"
+    action: ALLOW
+}
+
+rule BuyerHasAccessToBuyerPurchase {
+    description: "Allow only Buyer to Buy Table from Retailer"
+    participant: "org.ikea.com.Buyer"
+    operation: ALL
+    resource: "org.ikea.com.BuyerPurchase"
+    action: ALLOW
+}
+
+rule BuyerHasFullToBuyer {
+    description: "Allow only Buyer to Buy Table from Retailer"
+    participant: "org.ikea.com.Buyer"
+    operation: ALL
+    resource: "org.ikea.com.Buyer"
+    action: ALLOW
+}
+
+rule BuyerHasLimitedAccessToRetailer {
+    description: "Allow only Buyer to Buy Table from Retailer"
+    participant: "org.ikea.com.Buyer"
+    operation: READ,UPDATE
+    resource: "org.ikea.com.Retailer"
+    action: ALLOW
+}
+
+rule BuyerHasLimitedAccessToProduct {
+    description: "Allow only Buyer to Buy Table from Retailer"
+    participant: "org.ikea.com.Buyer"
+    operation: READ,UPDATE
+    resource: "org.ikea.com.Product"
+    action: ALLOW
+}
+
+
+
 
 rule NetworkAdminUser {
     description: "Grant User network administrators full access to user resources"
@@ -56,4 +116,12 @@ rule NetworkAdminSystem {
     operation: ALL
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
 }
