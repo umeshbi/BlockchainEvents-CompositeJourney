@@ -93,6 +93,15 @@ rule BuyerHasAccessToBuyerPurchase {
     action: ALLOW
 }
 
+rule BuyerHasAccessToProductReturn {
+    description: "Allow only Buyer to Buy Table from Retailer"
+    participant: "org.ikea.com.Buyer"
+    operation: ALL
+    resource: "org.ikea.com.ProductReturn"
+    action: ALLOW
+}
+
+
 rule BuyerHasFullToBuyer {
     description: "Allow only Buyer to Buy Table from Retailer"
     participant: "org.ikea.com.Buyer"
